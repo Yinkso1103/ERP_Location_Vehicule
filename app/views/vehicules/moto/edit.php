@@ -24,7 +24,7 @@
 
             <div class="card shadow-sm">
                 <div class="card-body">
-                    <form action="index.php?controller=vehicule&action=updateMoto&id=<?= $moto['id_vehicule'] ?>" method="POST">
+                    <form action="index.php?controller=vehicule&action=updateMoto&id=<?= $moto['id_moto'] ?>" method="POST">
 
                         <div class="row g-3">
                             <div class="col-md-6">

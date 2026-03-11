@@ -39,7 +39,7 @@
                     <?php if (!empty($scooters)): ?>
                         <?php foreach ($scooters as $scooter): ?>
                         <tr class="text-muted">
-                            <td><?= htmlspecialchars($scooter['id_vehicule']) ?></td>
+                            <td><?= htmlspecialchars($scooter['id_scooter']) ?></td>
                             <td><?= htmlspecialchars($scooter['marque']) ?></td>
                             <td><?= htmlspecialchars($scooter['modele']) ?></td>
                             <td><?= htmlspecialchars($scooter['cylindree']) ?> cc</td>
@@ -53,12 +53,11 @@
                             </td>
                             <td><?= number_format($scooter['prix'], 2, ',', ' ') ?> €</td>
                             <td class="text-center">
-                                <a href="index.php?controller=vehicule&action=restoreScooter&id=<?= $scooter['id_vehicule'] ?>"
+                                <a href="index.php?controller=vehicule&action=restoreScooter&id=<?= $scooter['id_scooter'] ?>"
                                    class="btn btn-sm btn-success me-1"
                                    onclick="return confirm('Restaurer ce scooter ?')" title="Restaurer">
-                                    <i class="fas fa-undo"></i> Restaurer
-                                </a>
-                                <a href="index.php?controller=vehicule&action=deleteScooter&id=<?= $scooter['id_vehicule'] ?>"
+                                   <i class="fas fa-undo"></i>                                </a>
+                                <a href="index.php?controller=vehicule&action=restoreScooter&id=<?= $scooter['id_scooter'] ?>"
                                    class="btn btn-sm btn-danger"
                                    onclick="return confirm('Supprimer définitivement ce scooter ?')" title="Supprimer">
                                     <i class="fas fa-trash"></i>

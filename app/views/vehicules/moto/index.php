@@ -56,7 +56,7 @@
                     <?php if (!empty($motos)): ?>
                         <?php foreach ($motos as $moto): ?>
                         <tr>
-                            <td class="text-muted"><?= htmlspecialchars($moto['id_vehicule']) ?></td>
+                            <td class="text-muted"><?= htmlspecialchars($moto['id_moto']) ?></td>
                             <td><strong><?= htmlspecialchars($moto['marque']) ?></strong></td>
                             <td><?= htmlspecialchars($moto['modele']) ?></td>
                             <td><span class="badge bg-danger"><?= htmlspecialchars($moto['type_moto']) ?></span></td>
@@ -65,11 +65,11 @@
                             <td><?= htmlspecialchars($moto['couleur']) ?></td>
                             <td><strong><?= number_format($moto['prix'], 2, ',', ' ') ?> €</strong></td>
                             <td class="text-center">
-                                <a href="index.php?controller=vehicule&action=editMoto&id=<?= $moto['id_vehicule'] ?>"
+                                <a href="index.php?controller=vehicule&action=editMoto&id=<?= $moto['id_moto'] ?>"
                                    class="btn btn-sm btn-primary me-1" title="Modifier">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <a href="index.php?controller=vehicule&action=archiveMoto&id=<?= $moto['id_vehicule'] ?>"
+                                <a href="index.php?controller=vehicule&action=archiveMoto&id=<?= $moto['id_moto'] ?>"
                                    class="btn btn-sm btn-warning"
                                    onclick="return confirm('Archiver cette moto ?')" title="Archiver">
                                     <i class="fas fa-archive"></i>

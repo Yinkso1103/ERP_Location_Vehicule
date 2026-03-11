@@ -12,7 +12,7 @@
 </head>
 <body class="bg-light">
 
-<?php require_once __DIR__ . '/../partials/navbar.php'; ?>
+<?php require_once __DIR__ . '/../partials/navbar.php';?>
 
 <div class="container mt-4">
  
@@ -47,7 +47,8 @@
                         <?php endif; ?>
 
                         <!-- Formulaire d'upload -->
-                        <form action="index.php?controller=user&action=importProcess" method="POST" enctype="multipart/form-data">                            <div class="mb-4">
+                        <form action="index.php?controller=user&action=importProcess" method="POST" enctype="multipart/form-data">
+                            <div class="mb-4">
                                 <label for="csv_file" class="form-label">
                                     <i class="fas fa-upload"></i> Sélectionnez votre fichier CSV
                                 </label>

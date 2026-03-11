@@ -56,7 +56,7 @@
                     <?php if (!empty($scooters)): ?>
                         <?php foreach ($scooters as $scooter): ?>
                         <tr>
-                            <td class="text-muted"><?= htmlspecialchars($scooter['id_vehicule']) ?></td>
+                            <td class="text-muted"><?= htmlspecialchars($scooter['id_scooter']) ?></td>
                             <td><strong><?= htmlspecialchars($scooter['marque']) ?></strong></td>
                             <td><?= htmlspecialchars($scooter['modele']) ?></td>
                             <td><?= htmlspecialchars($scooter['cylindree']) ?> cc</td>
@@ -71,11 +71,11 @@
                             </td>
                             <td><strong><?= number_format($scooter['prix'], 2, ',', ' ') ?> €</strong></td>
                             <td class="text-center">
-                                <a href="index.php?controller=vehicule&action=editScooter&id=<?= $scooter['id_vehicule'] ?>"
+                                <a href="index.php?controller=vehicule&action=editScooter&id=<?= $scooter['id_scooter'] ?>"
                                    class="btn btn-sm btn-primary me-1" title="Modifier">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <a href="index.php?controller=vehicule&action=archiveScooter&id=<?= $scooter['id_vehicule'] ?>"
+                                <a href="index.php?controller=vehicule&action=archiveScooter&id=<?= $scooter['id_scooter'] ?>"
                                    class="btn btn-sm btn-warning"
                                    onclick="return confirm('Archiver ce scooter ?')" title="Archiver">
                                     <i class="fas fa-archive"></i>

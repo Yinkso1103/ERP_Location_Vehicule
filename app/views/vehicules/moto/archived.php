@@ -39,7 +39,7 @@
                     <?php if (!empty($motos)): ?>
                         <?php foreach ($motos as $moto): ?>
                         <tr class="text-muted">
-                            <td><?= htmlspecialchars($moto['id_vehicule']) ?></td>
+                            <td><?= htmlspecialchars($moto['id_moto']) ?></td>
                             <td><?= htmlspecialchars($moto['marque']) ?></td>
                             <td><?= htmlspecialchars($moto['modele']) ?></td>
                             <td><span class="badge bg-secondary"><?= htmlspecialchars($moto['type_moto']) ?></span></td>
@@ -47,12 +47,11 @@
                             <td><?= htmlspecialchars($moto['annee']) ?></td>
                             <td><?= number_format($moto['prix'], 2, ',', ' ') ?> €</td>
                             <td class="text-center">
-                                <a href="index.php?controller=vehicule&action=restoreMoto&id=<?= $moto['id_vehicule'] ?>"
+                                <a href="index.php?controller=vehicule&action=restoreMoto&id=<?= $moto['id_moto'] ?>"
                                    class="btn btn-sm btn-success me-1" title="Restaurer"
                                    onclick="return confirm('Restaurer cette moto ?')">
-                                    <i class="fas fa-undo"></i> Restaurer
-                                </a>
-                                <a href="index.php?controller=vehicule&action=deleteMoto&id=<?= $moto['id_vehicule'] ?>"
+                                   <i class="fas fa-undo"></i>                                </a>
+                                <a href="index.php?controller=vehicule&action=deleteMoto&id=<?= $moto['id_moto'] ?>"
                                    class="btn btn-sm btn-danger"
                                    onclick="return confirm('Supprimer définitivement cette moto ?')" title="Supprimer">
                                     <i class="fas fa-trash"></i>
