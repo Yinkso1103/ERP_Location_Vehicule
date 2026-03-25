@@ -1,3 +1,7 @@
+<?php
+
+// controle de l'existance de la session.
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>

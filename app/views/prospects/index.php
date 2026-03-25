@@ -54,7 +54,7 @@
                                 <td><?= htmlspecialchars($p['prenom']) ?></td>
                                 <td><?= htmlspecialchars($p['email']) ?></td>
                                 <td><?= htmlspecialchars($p['telephone']) ?></td>
-                                <td><?= htmlspecialchars($p['ville']) ?></td>
+                                <td><?= htmlspecialchars($p['ville'] ?? '') ?></td>
                                 <td><?= date('d/m/Y', strtotime($p['date_creation'])) ?></td>
                                 <td>
                                     <a href="index.php?controller=devis&action=create&prospect=<?= $p['id_prospect'] ?>" 

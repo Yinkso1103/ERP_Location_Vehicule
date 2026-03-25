@@ -57,8 +57,7 @@
                                    class="btn btn-sm btn-success me-1"
                                    onclick="return confirm('Restaurer ce scooter ?')" title="Restaurer">
                                    <i class="fas fa-undo"></i>                                </a>
-                                <a href="index.php?controller=vehicule&action=restoreScooter&id=<?= $scooter['id_scooter'] ?>"
-                                   class="btn btn-sm btn-danger"
+                                    <a href="index.php?controller=vehicule&action=deleteScooter&id=<?= $scooter['id_scooter'] ?>"                                   class="btn btn-sm btn-danger"
                                    onclick="return confirm('Supprimer définitivement ce scooter ?')" title="Supprimer">
                                     <i class="fas fa-trash"></i>
                                 </a>

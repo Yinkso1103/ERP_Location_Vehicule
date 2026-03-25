@@ -1,12 +1,13 @@
 <?php
-// ======================================================
-// ROUTEUR PRINCIPAL 
-// ======================================================
+session_start();
+
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
 // Définir le chemin absolu vers le dossier app
-define('APP_PATH', dirname(__DIR__) . '/app/');
+define('APP_PATH', __DIR__ . '/app/');
 
-// Charger automatiquement les classes (controllers, models,config)
+// Charger automatiquement les classes
 spl_autoload_register(function ($class) {
     $folders = ['controllers', 'models', 'config'];
     foreach ($folders as $folder) {
@@ -18,14 +19,28 @@ spl_autoload_register(function ($class) {
     }
 });
 
-// Récupérer les paramètres depuis l’URL
-// index.php?controller=user&action=create
-$controllerName = $_GET['controller'] ?? 'user'; // valeur par défaut
-$actionName     = $_GET['action'] ?? 'index';    // valeur par défaut
+// Récupérer les paramètres depuis l'URL
+$controllerName = $_GET['controller'] ?? 'auth';
+$actionName     = $_GET['action'] ?? 'index';
 
 // Sécuriser les noms reçus
 $controllerName = preg_replace('/[^a-zA-Z0-9_]/', '', $controllerName);
 $actionName     = preg_replace('/[^a-zA-Z0-9_]/', '', $actionName);
+
+// Pages accessibles sans être connecté
+$pagesPubliques = [
+    'auth' => ['index', 'login', 'logout']
+];
+
+// Vérifier si la page est publique
+$estPublique = isset($pagesPubliques[$controllerName]) 
+    && in_array($actionName, $pagesPubliques[$controllerName]);
+
+// Si pas connecté et page privée → rediriger vers login
+if (!$estPublique && !isset($_SESSION['utilisateur'])) {
+    header('Location: index.php?controller=auth&action=index');
+    exit;
+}
 
 // Construire le nom du contrôleur et son chemin
 $controllerClass = ucfirst($controllerName) . 'Controller';
@@ -46,14 +61,14 @@ if (!class_exists($controllerClass)) {
     die("<h2>Erreur interne</h2><p>Classe <strong>$controllerClass</strong> non trouvée.</p>");
 }
 
-//Instancier le contrôleur
+// Instancier le contrôleur
 $controller = new $controllerClass();
 
-// 1Vérifier que la méthode demandée existe
+// Vérifier que la méthode demandée existe
 if (!method_exists($controller, $actionName)) {
     http_response_code(404);
     die("<h2>Erreur 404</h2><p>Action introuvable : <strong>$actionName</strong></p>");
 }
 
-//  Exécuter l’action
+// Exécuter l'action
 $controller->$actionName();

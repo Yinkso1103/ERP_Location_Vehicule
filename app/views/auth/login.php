@@ -28,11 +28,7 @@
     </style>
 </head>
 <body>
-    <?php require_once __DIR__ . '/../partials/navbar.php'; ?>
-
-<div class="container mt-4">
-
-
+    
     <div class="login-container">
         <div class="card">
             <div class="card-body p-5">

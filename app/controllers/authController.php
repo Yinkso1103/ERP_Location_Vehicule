@@ -1,5 +1,4 @@
 <?php
-session_start();
 
 require_once __DIR__ . '/../models/UserDao.php';
 
@@ -26,11 +25,14 @@ class AuthController {
                 return;
             }
 
-            $email    = trim($_POST['email']);
-            $password = trim($_POST['password']);
+            $email    = $_POST['email'];
+            $password = $_POST['password'];
 
             // Récupérer l'utilisateur par email (méthode correcte)
             $utilisateur = UserDao::getUserByEmail($email);
+
+
+ 
 
             // Vérifier le mot de passe (champ "mot_de_passe" en BDD)
             if ($utilisateur && password_verify($password, $utilisateur['mot_de_passe'])) {

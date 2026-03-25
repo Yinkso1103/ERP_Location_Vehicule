@@ -53,7 +53,7 @@ class UserController {
         $prenom   = trim($_POST['prenom'] ?? '');
         $email    = trim($_POST['email'] ?? '');
         $role     = (int)($_POST['role_id'] ?? 0);
-        $password = password_hash(trim($_POST['password_user'] ?? 'changeme'), PASSWORD_DEFAULT);
+        $password = password_hash(trim($_POST['password_user'] ?? 'changement'), PASSWORD_DEFAULT);
 
         $user = new Utilisateur(0, $nom, $prenom, $email, $password, $role);
 
