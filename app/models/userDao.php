@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../config/db.php';
-require_once __DIR__ . '/role.php';
-require_once __DIR__ . '/utilisateur.php';
+require_once __DIR__ . '/Role.php';
+require_once __DIR__ . '/Utilisateur.php';
 
 class UserDao {
     

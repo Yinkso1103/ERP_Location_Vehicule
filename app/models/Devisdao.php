@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../config/db.php';
-require_once __DIR__ . '/devis.php';
-require_once __DIR__ . '/clientDao.php';
+require_once __DIR__ . '/Devis.php';
+require_once __DIR__ . '/ClientDao.php';
 
 class DevisDao {
     

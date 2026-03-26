@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../models/Devisdao.php';
-require_once __DIR__ . '/../models/Prospectdao.php';
-require_once __DIR__ . '/../models/vehiculeDao.php';
+require_once __DIR__ . '/../models/ProspectDao.php';
+require_once __DIR__ . '/../models/VehiculeDao.php';
 
 class DevisController {
 

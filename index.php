@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 // Définir le chemin absolu vers le dossier app
 define('APP_PATH', __DIR__ . '/app/');
 
-// Charger automatiquement les classes
+// Charge automatique des classes
 spl_autoload_register(function ($class) {
     $folders = ['controllers', 'models', 'config'];
     foreach ($folders as $folder) {

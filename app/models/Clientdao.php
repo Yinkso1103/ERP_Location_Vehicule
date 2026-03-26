@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../config/db.php';
-require_once __DIR__ . '/client.php';
+require_once __DIR__ . '/Client.php';
 
 class ClientDao {
     

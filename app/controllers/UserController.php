@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../models/userDao.php';
+require_once __DIR__ . '/../models/UserDao.php';
 
 class UserController {
 

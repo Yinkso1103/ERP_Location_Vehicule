@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../models/clientDao.php';
+require_once __DIR__ . '/../models/ClientDao.php';
 
 class ClientController {
 
@@ -25,7 +25,7 @@ class ClientController {
             }
             
             // Récupérer les devis du client
-            require_once __DIR__ . '/../models/devisDao.php';
+            require_once __DIR__ . '/../models/DevisDao.php';
             $devis = DevisDao::getDevisByProspectId($client['id_prospect']);
             
             require_once __DIR__ . '/../views/clients/view.php';

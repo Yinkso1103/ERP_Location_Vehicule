@@ -1,8 +1,8 @@
 <?php
 require_once __DIR__ . '/../config/db.php';
-require_once __DIR__ . '/vehicule.php';
-require_once __DIR__ . '/moto.php';
-require_once __DIR__ . '/scooter.php';
+require_once __DIR__ . '/Vehicule.php';
+require_once __DIR__ . '/Moto.php';
+require_once __DIR__ . '/Scooter.php';
 
 class VehiculeDao {
     

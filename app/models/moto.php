@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/vehicule.php';
+require_once __DIR__ . '/Vehicule.php';
 
 class Moto extends Vehicule {
     private int $cylindree;
