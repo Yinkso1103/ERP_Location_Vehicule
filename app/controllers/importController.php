@@ -110,9 +110,9 @@ class ImportController {
         require_once __DIR__ . '/../views/import/import.php';
     }
 
-    /**
-     * Télécharger un modèle CSV
-     */
+    
+     //Télécharger un modèle CSV
+     
     public function downloadTemplate() {
         $table = $_POST['table'] ?? $_GET['table'] ?? 'utilisateur';
         $filename = "modele_import_$table.csv";

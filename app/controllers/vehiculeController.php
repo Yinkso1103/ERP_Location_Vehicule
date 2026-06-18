@@ -1,28 +1,27 @@
 <?php
+
 require_once __DIR__ . '/../models/VehiculeDao.php';
 
 class VehiculeController {
 
-    // ===== MOTOS =====
-    
     // Liste des motos actives
     public function indexMoto() {
         $motos = VehiculeDao::recupToutesLesMotos();
         require_once __DIR__ . '/../views/vehicules/moto/index.php';
     }
 
-    // Liste des motos archivées
+        // Liste des motos archivées
     public function archivedMoto() {
         $motos = VehiculeDao::recupMotosArchivees();
         require_once __DIR__ . '/../views/vehicules/moto/archived.php';
     }
 
-    // Formulaire de création d'une moto
+       // Formulaire de création d'une moto
     public function createMoto() {
         require_once __DIR__ . '/../views/vehicules/moto/create.php';
     }
 
-    // Formulaire d'édition d'une moto
+        // Formulaire d'édition d'une moto
     public function editMoto() {
         $id = (int)($_GET['id'] ?? 0);
         if ($id > 0) {
@@ -36,7 +35,7 @@ class VehiculeController {
         }
     }
 
-    // Enregistrer une nouvelle moto
+        // Enregistrer une nouvelle moto
     public function storeMoto() {
         $marque = trim($_POST['marque'] ?? '');
         $modele = trim($_POST['modele'] ?? '');
@@ -57,7 +56,7 @@ class VehiculeController {
         }
     }
 
-    // Mettre à jour une moto
+        // Mettre à jour une moto
     public function updateMoto() {
         $id = (int)($_GET['id'] ?? 0);
         $marque = trim($_POST['marque'] ?? '');
@@ -83,7 +82,7 @@ class VehiculeController {
         }
     }
 
-    // Archiver une moto
+        // Archiver une moto
     public function archiveMoto() {
         $id = (int)($_GET['id'] ?? 0);
         if ($id <= 0) {
@@ -100,7 +99,7 @@ class VehiculeController {
         exit;
     }
 
-    // Restaurer une moto
+       // Restaurer une moto
     public function restoreMoto() {
         $id = (int)($_GET['id'] ?? 0);
         if ($id <= 0) {
@@ -117,7 +116,7 @@ class VehiculeController {
         exit;
     }
 
-    // Supprimer définitivement une moto
+       // Supprimer définitivement une moto
     public function deleteMoto() {
         $id = (int)($_GET['id'] ?? 0);
         if ($id <= 0) {
@@ -129,8 +128,8 @@ class VehiculeController {
         exit;
     }
 
-    // ===== SCOOTERS =====
-    
+    // SCOOTERS 
+  
     // Liste des scooters actifs
     public function indexScooter() {
         $scooters = VehiculeDao::recupTousLesScooters();
@@ -255,8 +254,8 @@ class VehiculeController {
         exit;
     }
 
-    // ===== IMPORT CSV =====
-    
+    //IMPORT CSV
+
     // Page d'import pour motos
     public function importMoto() {
         require_once __DIR__ . '/../views/vehicules/moto/import.php';
@@ -267,7 +266,7 @@ class VehiculeController {
         require_once __DIR__ . '/../views/vehicules/scooter/import.php';
     }
 
-    // Traiter l'import CSV pour motos
+        // Traiter l'import CSV pour motos
     public function importProcessMoto() {
         $errors = [];
         $success = false;
@@ -349,7 +348,7 @@ class VehiculeController {
         require_once __DIR__ . '/../views/vehicules/moto/import.php';
     }
 
-    // Traiter l'import CSV pour scooters
+        // Traiter l'import CSV pour scooters
     public function importProcessScooter() {
         $errors = [];
         $success = false;
@@ -435,7 +434,8 @@ class VehiculeController {
     header('Location: index.php?controller=vehicule&action=indexMoto');
     exit;
 }
-    // Télécharger un modèle CSV pour motos
+ 
+        // Télécharger un modèle CSV pour motos
     public function downloadTemplateMoto() {
         $filename = 'modele_import_motos.csv';
         
@@ -453,7 +453,7 @@ class VehiculeController {
         exit;
     }
 
-    // Télécharger un modèle CSV pour scooters
+        // Télécharger un modèle CSV pour scooters
     public function downloadTemplateScooter() {
         $filename = 'modele_import_scooters.csv';
         

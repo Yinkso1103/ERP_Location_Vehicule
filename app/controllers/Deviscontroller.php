@@ -5,15 +5,19 @@ require_once __DIR__ . '/../models/VehiculeDao.php';
 
 class DevisController {
 
+    // Liste des devis actifs avec jointure prospect
+
     public function index() {
         $devis = DevisDao::recupTousLesDevis();
         require_once __DIR__ . '/../views/devis/index.php';
     }
+    // Liste des devis archivés
 
     public function archived() {
         $devis = DevisDao::recupDevisArchives();
         require_once __DIR__ . '/../views/devis/archived.php';
     }
+    // Formulaire création : charge prospects + motos + scooters pour les selects
 
     public function create() {
         $prospects = ProspectDao::recupTousLesProspects();
@@ -21,6 +25,7 @@ class DevisController {
         $scooters = VehiculeDao::recupTousLesScooters();
         require_once __DIR__ . '/../views/devis/create.php';
     }
+    // Affiche le détail d'un devis
 
     public function view() {
         $id = (int)($_GET['id'] ?? 0);
@@ -35,6 +40,7 @@ class DevisController {
         }
     }
 
+        // Charge un devis pour édition
     public function edit() {
         $id = (int)($_GET['id'] ?? 0);
         if ($id > 0) {
@@ -48,6 +54,7 @@ class DevisController {
         }
     }
 
+    // Enregistre un nouveau devis en BDD
     public function store() {
         $id_prospect   = (int)($_POST['id_prospect'] ?? 0);
         $type_vehicule = trim($_POST['type_vehicule'] ?? '');
@@ -90,7 +97,8 @@ class DevisController {
             echo "<div style='color:red; text-align:center;'>{$result['message']}</div>";
         }
     }
-
+    
+    // Met à jour remise, commentaire et statut d'un devis existant
     public function update() {
         $id          = (int)($_GET['id'] ?? 0);
         $remise      = (float)($_POST['remise'] ?? 0);
@@ -129,12 +137,14 @@ class DevisController {
         }
     }
 
+        // Valide le devis → convertit le prospect en client (transaction BDD dans le DAO)
     public function valider() {
         $id = (int)($_GET['id'] ?? 0);
         if ($id <= 0) {
             die("ID invalide");
         }
 
+            
         $result = DevisDao::validerDevis($id);
 
         if ($result['success']) {
@@ -146,6 +156,7 @@ class DevisController {
         exit;
     }
 
+    // Passe le statut du devis à 'refuse'
     public function refuser() {
         $id = (int)($_GET['id'] ?? 0);
         if ($id <= 0) {
@@ -162,6 +173,7 @@ class DevisController {
         exit;
     }
 
+    // Soft delete du devis (archive = 1)
     public function archive() {
         $id = (int)($_GET['id'] ?? 0);
         if ($id <= 0) {
@@ -178,6 +190,7 @@ class DevisController {
         exit;
     }
 
+        // Restaure un devis archivé (archive = 0)
     public function restore() {
         $id = (int)($_GET['id'] ?? 0);
         if ($id <= 0) {
@@ -194,6 +207,7 @@ class DevisController {
         exit;
     }
 
+        // Hard delete définitif (uniquement depuis les archives)
     public function delete() {
         $id = (int)($_GET['id'] ?? 0);
         if ($id <= 0) {
@@ -205,6 +219,7 @@ class DevisController {
         exit;
     }
 
+        // Génère la vue PDF d'un devis
     public function generatePDF() {
         $id = (int)($_GET['id'] ?? 0);
         if ($id <= 0) {

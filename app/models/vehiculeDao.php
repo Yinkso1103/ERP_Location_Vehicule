@@ -6,7 +6,8 @@ require_once __DIR__ . '/Scooter.php';
 
 class VehiculeDao {
     
-    // Récupérer toutes les motos actives
+        // Retourne toutes les motos actives (archive = 0), ordre décroissant
+
     public static function recupToutesLesMotos() {
         $pdo = Db::seConnecterBdd();
         $stmt = $pdo->prepare("SELECT * FROM moto WHERE archive = 0 ORDER BY id_moto DESC");
@@ -14,7 +15,8 @@ class VehiculeDao {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Récupérer tous les scooters actifs
+       // Retourne tous les scooters actifs
+
     public static function recupTousLesScooters() {
         $pdo = Db::seConnecterBdd();
         $stmt = $pdo->prepare("SELECT * FROM scooter WHERE archive = 0 ORDER BY id_scooter DESC");
@@ -22,7 +24,8 @@ class VehiculeDao {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Récupérer les motos archivées
+    //Récupère les motos archivées (archive = 1), pour la page "archives".
+     
     public static function recupMotosArchivees() {
         $pdo = Db::seConnecterBdd();
         $stmt = $pdo->prepare("SELECT * FROM moto WHERE archive = 1 ORDER BY id_moto DESC");
@@ -30,7 +33,9 @@ class VehiculeDao {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Récupérer les scooters archivés
+    
+     //Récupère les scooters archivés (archive = 1).
+     
     public static function recupScootersArchives() {
         $pdo = Db::seConnecterBdd();
         $stmt = $pdo->prepare("SELECT * FROM scooter WHERE archive = 1 ORDER BY id_scooter DESC");
@@ -38,7 +43,8 @@ class VehiculeDao {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Récupérer une moto par ID
+    // Récupère une moto par son ID (PARAM_INT → typage strict PDO)
+
     public static function getMotoById($id) {
         $pdo = Db::seConnecterBdd();
         $stmt = $pdo->prepare("SELECT * FROM moto WHERE id_moto = :id");
@@ -47,7 +53,9 @@ class VehiculeDao {
         return $stmt->fetch();
     }
 
-    // Récupérer un scooter par ID
+    
+     //Récupère UN scooter précis via son id.
+     
     public static function getScooterById($id) {
         $pdo = Db::seConnecterBdd();
         $stmt = $pdo->prepare("SELECT * FROM scooter WHERE id_scooter = :id");
@@ -56,7 +64,8 @@ class VehiculeDao {
         return $stmt->fetch();
     }
 
-    // Créer une moto
+       // Crée une moto (valide les champs obligatoires avant INSERT)
+
     public static function createMoto($moto) {
         if (empty($moto->getMarque()) || empty($moto->getModele()) || empty($moto->getPrix())) {
             return ['success' => false, 'message' => 'Tous les champs obligatoires doivent être remplis.'];
@@ -83,7 +92,8 @@ class VehiculeDao {
         }
     }
 
-    // Créer un scooter
+        // Crée un scooter (coffre = booléen → PARAM_BOOL en PDO)
+
     public static function createScooter($scooter) {
         if (empty($scooter->getMarque()) || empty($scooter->getModele()) || empty($scooter->getPrix())) {
             return ['success' => false, 'message' => 'Tous les champs obligatoires doivent être remplis.'];
@@ -110,7 +120,8 @@ class VehiculeDao {
         }
     }
 
-    // Mettre à jour une moto
+        // Met à jour toutes les infos d'une moto
+
     public static function updateMoto($moto) {
         try {
             $pdo = Db::seConnecterBdd();
@@ -136,7 +147,8 @@ class VehiculeDao {
         }
     }
 
-    // Mettre à jour un scooter
+       // Met à jour toutes les infos d'un scooter
+
     public static function updateScooter($scooter) {
         try {
             $pdo = Db::seConnecterBdd();
@@ -162,7 +174,9 @@ class VehiculeDao {
         }
     }
 
-    // Archiver une moto
+    
+     // Archive une moto = simple UPDATE qui passe archive à 1.
+    
     public static function archiveMoto($id) {
         try {
             $pdo = Db::seConnecterBdd();
@@ -175,7 +189,7 @@ class VehiculeDao {
         }
     }
 
-    // Archiver un scooter
+     // Archive un scooter = simple UPDATE qui passe archive à 1.
     public static function archiveScooter($id) {
         try {
             $pdo = Db::seConnecterBdd();
@@ -188,7 +202,8 @@ class VehiculeDao {
         }
     }
 
-    // Restaurer une moto
+        // Restaure une moto → archive = 0
+
     public static function restoreMoto($id) {
         try {
             $pdo = Db::seConnecterBdd();
@@ -201,7 +216,8 @@ class VehiculeDao {
         }
     }
 
-    // Restaurer un scooter
+        // Restaure un scooter → archive = 0
+
     public static function restoreScooter($id) {
         try {
             $pdo = Db::seConnecterBdd();
@@ -214,15 +230,17 @@ class VehiculeDao {
         }
     }
 
-    // Supprimer définitivement une moto
-    public static function deleteMoto($id) {
+    
+     //Supprime DÉFINITIVEMENT une moto (DELETE SQL réel, irréversible).
+         public static function deleteMoto($id) {
         $pdo = Db::seConnecterBdd();
         $stmt = $pdo->prepare("DELETE FROM moto WHERE id_moto = :id");
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
     }
 
-    // Supprimer définitivement un scooter
+         //Supprime DÉFINITIVEMENT un scooter (DELETE SQL réel, irréversible).
+
     public static function deleteScooter($id) {
         $pdo = Db::seConnecterBdd();
         $stmt = $pdo->prepare("DELETE FROM scooter WHERE id_scooter = :id");

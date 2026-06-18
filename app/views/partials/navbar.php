@@ -1,13 +1,4 @@
 <?php
-/**
- * navbar.php — Barre de navigation globale
- * À inclure en haut de chaque vue : <?php require_once __DIR__ . '/../partials/navbar.php'; ?>
- * 
- * Dépendances (déjà chargées dans la plupart des vues) :
- *   - Bootstrap 5.3
- *   - Font Awesome 6.5
- */
-
 // Page courante pour surligner le lien actif
 $currentController = $_GET['controller'] ?? 'user';
 $currentAction     = $_GET['action']     ?? 'index';
@@ -26,7 +17,7 @@ function navActive(string $ctrl, string $current): string {
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 <style>
-  /* ── Variables ─────────────────────────── */
+  /* ── Variables*/
   :root {
     --nav-bg:      #0d1b2a;
     --nav-accent:  #e94f1c;
@@ -36,7 +27,7 @@ function navActive(string $ctrl, string $current): string {
     --nav-height:  62px;
   }
 
-  /* ── Barre principale ───────────────────── */
+  /* ── Barre principale*/
   #scooter-navbar {
     background: var(--nav-bg);
     height: var(--nav-height);
@@ -47,7 +38,7 @@ function navActive(string $ctrl, string $current): string {
     z-index: 1030;
   }
 
-  /* ── Logo ───────────────────────────────── */
+  /* ── Logo*/
   #scooter-navbar .navbar-brand {
     color: #fff !important;
     font-weight: 700;
@@ -65,7 +56,7 @@ function navActive(string $ctrl, string $current): string {
     color: var(--nav-accent);
   }
 
-  /* ── Liens nav ──────────────────────────── */
+  /* ── Liens nav */
   #scooter-navbar .nav-link {
     color: var(--nav-text) !important;
     font-size: .82rem;
@@ -94,7 +85,7 @@ function navActive(string $ctrl, string $current): string {
     text-align: center;
   }
 
-  /* ── Séparateur vertical ────────────────── */
+  /* ── Séparateur vertical  */
   #scooter-navbar .nav-divider {
     width: 1px;
     background: rgba(255,255,255,.12);
@@ -103,7 +94,7 @@ function navActive(string $ctrl, string $current): string {
     margin: 0 .25rem;
   }
 
-  /* ── Badge utilisateur connecté ─────────── */
+  /* ── Badge utilisateur connecté  */
   #scooter-navbar .user-badge {
     background: rgba(255,255,255,.08);
     border: 1px solid rgba(255,255,255,.15);
@@ -126,7 +117,7 @@ function navActive(string $ctrl, string $current): string {
     letter-spacing: .5px;
   }
 
-  /* ── Bouton déconnexion ─────────────────── */
+  /* ── Bouton déconnexion  */
   #scooter-navbar .btn-logout {
     background: transparent;
     border: 1px solid rgba(233,79,28,.5);
@@ -145,7 +136,7 @@ function navActive(string $ctrl, string $current): string {
     color: #fff !important;
   }
 
-  /* ── Toggler mobile ─────────────────────── */
+  /* ── Toggler mobile  */
   #scooter-navbar .navbar-toggler {
     border-color: rgba(255,255,255,.2);
   }
@@ -153,7 +144,7 @@ function navActive(string $ctrl, string $current): string {
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28200,214,229,.8%29' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
   }
 
-  /* ── Espacement du body sous la navbar ───── */
+  /* ── Espacement du body sous la navbar  */
   body { padding-top: 0; }
 </style>
 

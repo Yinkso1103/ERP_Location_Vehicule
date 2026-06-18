@@ -3,7 +3,7 @@ require_once __DIR__ . '/../models/UserDao.php';
 
 class UserController {
 
-    // Vérifie que l'utilisateur est connecté et admin (role 1)
+    // Vérifie que l'utilisateur est connecté ET admin (id_role = 1) → sinon redirige
     private function checkAdminAccess() {
         if (!isset($_SESSION['utilisateur'])) {
             header('Location: index.php?controller=auth&action=index');
@@ -15,24 +15,27 @@ class UserController {
         }
     }
 
-    // Liste des utilisateurs actifs
+    // Liste des utilisateurs actifs (visible par tous les connectés)
     public function index() {
     $users = UserDao::recupTousLesUtilisateurs();
     require_once __DIR__ . '/../views/users/index.php';
 }
 
-    // Liste des utilisateurs archivés
+    // Liste des utilisateurs archivés (admin seulement)
     public function archived() {
         $this->checkAdminAccess();
         $users = UserDao::recupUtilisateursArchives();
         require_once __DIR__ . '/../views/users/archived.php';
     }
 
+    // Formulaire création (admin seulement)
+
     public function create() {
         $this->checkAdminAccess();
         require_once __DIR__ . '/../views/users/create.php';
     }
-
+        
+    // Charge un utilisateur pour édition (admin seulement)
     public function edit() {
         $this->checkAdminAccess();
         $id = (int)($_GET['id'] ?? 0);    
@@ -47,6 +50,7 @@ class UserController {
         }
     }
 
+        // Crée un utilisateur (mot de passe hashé avec bcrypt via password_hash)
     public function store() {
         $this->checkAdminAccess();
         $nom      = trim($_POST['nom'] ?? '');
@@ -67,6 +71,7 @@ class UserController {
         }
     }
 
+        // Met à jour un utilisateur (re-hash le mdp seulement si un nouveau est saisi)
     public function update() {
         $this->checkAdminAccess();
         $id       = (int)($_GET['id'] ?? 0);
@@ -89,7 +94,7 @@ class UserController {
             echo "<p style='color:red;'>Adresse email invalide.</p>";
             return;
         }
-
+        // Si champ mdp vide → conserve l'ancien hash en BDD
         if ($password !== '') {
             $password = password_hash($password, PASSWORD_DEFAULT);
         } else {
@@ -112,7 +117,7 @@ class UserController {
         }
     }
 
-    // Archive un utilisateur (au lieu de le supprimer)
+    // Soft delete (archive = 1) → empêche de s'auto-archiver
     public function archive() {
         $this->checkAdminAccess();
         $id = (int)($_GET['id'] ?? 0);
@@ -121,7 +126,7 @@ class UserController {
             die("ID invalide");
         }
 
-        // Protection : un admin ne peut pas s'auto-archiver
+        // Protection : un admin ne peut pas désactiver son propre compte
         if ($id === (int)$_SESSION['utilisateur']['id_utilisateur']) {
             die("Vous ne pouvez pas archiver votre propre compte.");
         }
@@ -136,7 +141,7 @@ class UserController {
         exit;
     }
 
-    // Restaure un utilisateur archivé
+    // Restauration (archive = 0)
     public function restore() {
         $this->checkAdminAccess();
         $id = (int)($_GET['id'] ?? 0);
@@ -155,7 +160,7 @@ class UserController {
         exit;
     }
 
-    // Suppression définitive (gardé pour les cas exceptionnels)
+    // Hard delete → empêche aussi de se supprimer soi-même
     public function delete() {
         $this->checkAdminAccess();
         $id = (int)($_GET['id'] ?? 0);
@@ -181,7 +186,7 @@ class UserController {
         require_once __DIR__ . '/../views/users/import.php';
     }
 
-    // Traite le fichier CSV uploadé
+    // Traite le fichier CSV uploadé ligne par ligne
     public function importProcess() {
         $this->checkAdminAccess();
         $errors = [];
@@ -196,7 +201,8 @@ class UserController {
         }
 
         $file = $_FILES['csv_file'];
-
+        
+        // Vérifie le type MIME réel du fichier (pas juste l'extension)
         $allowedMimes = ['text/csv', 'text/plain', 'application/csv', 'application/vnd.ms-excel'];
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
         $mimeType = finfo_file($finfo, $file['tmp_name']);
@@ -208,7 +214,7 @@ class UserController {
             return;
         }
 
-        if ($file['size'] > 2 * 1024 * 1024) {
+        if ($file['size'] > 2 * 1024 * 1024) { // max 2 Mo
             $errors[] = "Le fichier est trop volumineux (max 2 Mo).";
             require_once __DIR__ . '/../views/users/import.php';
             return;
@@ -222,8 +228,8 @@ class UserController {
             return;
         }
 
+        // Lit la première ligne = en-têtes de colonnes
         $header = fgetcsv($csvFile, 1000, ',');
-
         if ($header === false || count($header) < 4) {
             $errors[] = "Format d'en-tête invalide. Attendu : nom,prenom,email,role_id";
             fclose($csvFile);
@@ -231,10 +237,12 @@ class UserController {
             return;
         }
 
+        // Supprime le BOM UTF-8 éventuel (présent si exporté depuis Excel)
         $header = array_map(function($h) {
             return trim(str_replace("\xEF\xBB\xBF", '', $h));
         }, $header);
 
+        // Vérifie que toutes les colonnes obligatoires sont présentes
         $requiredColumns = ['nom', 'prenom', 'email', 'role_id'];
         foreach ($requiredColumns as $col) {
             if (!in_array($col, $header)) {
@@ -248,12 +256,14 @@ class UserController {
             return;
         }
 
+        // Récupère l'index de chaque colonne
         $nomIndex    = array_search('nom', $header);
         $prenomIndex = array_search('prenom', $header);
         $emailIndex  = array_search('email', $header);
         $roleIndex   = array_search('role_id', $header);
 
-        $lineNumber = 1;
+        $lineNumber = 1; // commence à 1 car la ligne 1 est l'en-tête
+
 
         while (($data = fgetcsv($csvFile, 1000, ',')) !== false) {
             $lineNumber++;
@@ -282,6 +292,7 @@ class UserController {
                 continue;
             }
 
+            // Mot de passe par défaut "changeme" (hashé), l'user devra le changer
             $password = password_hash("changeme", PASSWORD_DEFAULT);
             $user = new Utilisateur(0, $nom, $prenom, $email, $password, $roleId);
 
@@ -328,10 +339,8 @@ class UserController {
         exit;
     }
 
-    // ======================================================
-    // EXPORT CSV
-    // ======================================================
-
+      
+    // Exporte les utilisateurs actifs en CSV
     public function export() {
         $this->checkAdminAccess();
         $utilisateurs = UserDao::recupTousLesUtilisateurs();

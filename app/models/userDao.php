@@ -33,6 +33,8 @@ class UserDao {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    // Récupère un utilisateur par ID avec son rôle
+
     public static function getUserById($id_utilisateur) {
         $pdo = Db::seConnecterBdd();
         $stmt = $pdo->prepare("
@@ -45,6 +47,8 @@ class UserDao {
         $stmt->execute();
         return $stmt->fetch();
     }
+    
+    // Crée un utilisateur (mot de passe déjà hashé par le contrôleur)
 
     public static function createUser($utilisateur) {
         if (
@@ -81,6 +85,8 @@ class UserDao {
             return ['success' => false, 'message' => 'Erreur : ' . $e->getMessage()];
         }
     }
+
+    // Met à jour un utilisateur (valide email + tous les champs)
 
     public static function updateUser($utilisateur) {
         if (
@@ -153,7 +159,7 @@ class UserDao {
         }
     }
 
-    // Suppression définitive (à utiliser avec précaution)
+    // Suppression définitive 
     public static function deleteUser($id_utilisateur) {
         $pdo = Db::seConnecterBdd();
         $stmt = $pdo->prepare("DELETE FROM utilisateur WHERE id_utilisateur = :id_utilisateur");
@@ -161,20 +167,20 @@ class UserDao {
         $stmt->execute();
     }
 
-    /**
- * Récupère un utilisateur par son email (pour l'authentification)
- */
-public static function getUserByEmail($email) {
-    $pdo = Db::seConnecterBdd();
-    $stmt = $pdo->prepare("
-        SELECT u.id_utilisateur, u.nom, u.prenom, u.email, u.mot_de_passe, u.archive, u.id_role, r.nom_role 
-        FROM utilisateur u
-        JOIN role r ON u.id_role = r.id_role 
-        WHERE u.email = :email
-    ");
-    $stmt->bindValue(':email', $email, PDO::PARAM_STR);
-    $stmt->execute();
-    return $stmt->fetch();
+    
+    //Récupère un utilisateur par son email (utilisé par authController pour la connexion)
+
+    public static function getUserByEmail($email) {
+        $pdo = Db::seConnecterBdd();
+        $stmt = $pdo->prepare("
+            SELECT u.id_utilisateur, u.nom, u.prenom, u.email, u.mot_de_passe, u.archive, u.id_role, r.nom_role 
+            FROM utilisateur u
+            JOIN role r ON u.id_role = r.id_role 
+            WHERE u.email = :email
+        ");
+        $stmt->bindValue(':email', $email, PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->fetch();
 }
 
 }
